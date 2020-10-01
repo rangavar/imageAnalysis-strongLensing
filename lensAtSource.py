@@ -99,8 +99,26 @@ for name in names:
         m = float(mag['%s'%f])
         #iRe = numpy.exp(-1.) / ( (10.**(m-27.))**(1./2.5) * n * math.gamma(2.*n) * 2. * numpy.pi * re**2. )
 
-        iRe = iMax * numpy.exp( - ( (iMax * 2. * numpy.pi * (re**2.) * n * math.gamma(2.*n) )/( 10.**((27.-m)/2.5) ) )**(1./(2.*n)) )
-        print(iRe)
+        #this definition of Re relies on a non-lensed source, buthere source sizes are different, making it illogical to use the Re for achieving iRe. We rather use the sky variance files instead
+        #iRe = iMax * numpy.exp( - ( (iMax * 2. * numpy.pi * (re**2.) * n * math.gamma(2.*n) )/( 10.**((27.-m)/2.5) ) )**(1./(2.*n)) )
+        #print(iRe)
+
+        #using sky variance to get a threshold pixel value for defining the source borders
+        #and we want the source region from the g-band since in the other bands, it might never go above sky background 
+        if f == 'g':
+            var = fits.open('41-1-%s/data/data/sim0_%s_%s_var.fits' %(directoryNames[idAddress[name]],name,f))[0].data.copy()
+
+            #calculating the mimimum of the variance file 
+            xRange,yRange = numpy.shape(var)
+            minimum = 1000.0
+            for x_pixel in range(xRange):
+                for y_pixel in range(yRange):
+                    if var[x_pixel][y_pixel] < minimum:
+                        minimum = var[x_pixel][y_pixel]
+
+            sigmaSky = minimum**0.5
+            cutoff = 3.*sigmaSky
+            iRe = cutoff
 
         #bn = 2.*n - 1./3. + 4./(405.*n) + 46./(25515.*(n**2.)) + 131./(1148175.*(n**3.)) - 2194697./(30690717750.*(m**4.))
         #iRe = ( (10.**((27.-m)/2.5)) * (bn**(2.*n)) )/(numpy.exp(bn)*2.*numpy.pi*(re**2.)*n*math.gamma(2.*n))
@@ -121,6 +139,7 @@ for name in names:
 
         print(name,resSurfaceB,sourceSurfaceB)
         newlines.append('%s %s %s %s %s %s\n' %(name,f,resSurfaceB,sourceSurfaceB,resSurfaceB/sourceSurfaceB,iRe) )
+
 
         ratio['%s.%s'%(name,f)] = resSurfaceB/sourceSurfaceB
 
