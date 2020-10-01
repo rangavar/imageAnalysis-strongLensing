@@ -146,7 +146,7 @@ plt.yscale('log')
 plt.axhline(0.2,linestyle = '--')
 plt.axvline(2.0,linestyle = ':')
 
-plt.xlabel('surface brightness ratio of lens to source,  $\lambda_{i}$',fontsize=13)
+plt.xlabel('surface brightness ratio of lens to source,  $\Lambda_{i}$',fontsize=13)
 plt.ylabel('color measurement error, $\Delta C$',fontsize=13)
 #plt.set_xscale('log')
 #plt.set_yscale('log')
