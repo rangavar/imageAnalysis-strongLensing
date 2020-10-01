@@ -68,11 +68,26 @@ lines = []
 lines.append('name ratio error\n')
 for i in range(len(names)):
     noSource = fits.open('../3quarry/data/%s_i_sci.fits'%names[i])
+    #this definition is wrong and will be changed shortly
     lens = float(noSource[0].data[int(y[i]),int(x[i])])
     imageFile = fits.open('../41makeSims1/0simulations/data/sim0_%s_i_sci.fits'%names[i])
     image = imageFile[0].data
     noSource[0].data = image - noSource[0].data
-    source = float(noSource[0].data[int(y[i]),int(x[i])])
+
+    #finding the source maximum pixel
+    xRange,yRange = numpy.shape(noSource[0].data)
+    iMax = 0.
+    for x_pixel in range(xRange):
+        for y_pixel in range(yRange):
+            if noSource[0].data[x_pixel][y_pixel] >= iMax:
+                iMax = noSource[0].data[x_pixel][y_pixel]
+                sourcex = x_pixel
+                sourcey = y_pixel
+
+    #lens again
+    newnoSource = fits.open('../3quarry/data/%s_i_sci.fits'%names[i])
+    lens = float(newnoSource[0].data[sourcex,sourcey])
+    source = float(noSource[0].data[sourcex,sourcey])
     noSource.writeto('sources/%s_source.fits'%names[i])
     ratio[i] = float(lens/source)
     lines.append('%s %f %f\n'%(names[i],ratio[i],error[i]))
