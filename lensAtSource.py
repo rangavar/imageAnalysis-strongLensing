@@ -11,7 +11,7 @@ os.makedirs('lensResAtSource')
 os.makedirs('lensResAtSource/sources')
 os.makedirs('lensResAtSource/res')
 
-NBach = 1
+NBach = 4
 directoryNumbers = []
 directoryNames = []
 for i in range(NBach):
@@ -138,10 +138,16 @@ for name in names:
         step0[count].writeto('./lensResAtSource/res/res_%s_%s_sci.fits'%(name,f))
 
         print(name,resSurfaceB,sourceSurfaceB)
-        newlines.append('%s %s %s %s %s %s\n' %(name,f,resSurfaceB,sourceSurfaceB,resSurfaceB/sourceSurfaceB,iRe) )
 
+        if sourceSurfaceB == 0.:
+            newlines.append('%s %s %s %s %s %s\n' %(name,f,resSurfaceB,sourceSurfaceB,0.0,iRe) )
+        else:
+            newlines.append('%s %s %s %s %s %s\n' %(name,f,resSurfaceB,sourceSurfaceB,resSurfaceB/sourceSurfaceB,iRe) )
 
-        ratio['%s.%s'%(name,f)] = resSurfaceB/sourceSurfaceB
+        if sourceSurfaceB == 0.:
+            ratio['%s.%s'%(name,f)] = 0.
+        else:
+            ratio['%s.%s'%(name,f)] = resSurfaceB/sourceSurfaceB
 
         count = count + 1
 
@@ -221,5 +227,5 @@ for name in names:
 plot.errorbar(errorDependency,cError,yerr=yer,marker='.',linestyle="None",markerfacecolor="red")
 plot.ylim(-1.,1.)
 plot.xlabel(r'$\tau$',fontsize=14)
-plot.ylabel(r'$\delta C$',fontsize=14)
+plot.ylabel(r'$\Delta C$',fontsize=14)
 plot.savefig('lensResAtSource/residuals.eps',format='eps',dpi=1000)
