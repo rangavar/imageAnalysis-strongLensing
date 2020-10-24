@@ -26,7 +26,7 @@ for directory in directories:
         for line in lines:
                 names.append(line.split('\n')[0])
                 names_address[directory].append(line.split('\n')[0])
-            
+
         #going through ouputs adding the last fit of each object to the list
         for i in range(9):
                 tempNames = []
@@ -137,7 +137,7 @@ realMagY = []
 magG = []
 magR = []
 magI = []
-magZ = [] 
+magZ = []
 magY = []
 Ger = []
 Rer = []
@@ -168,6 +168,20 @@ for name in real_data.keys():
     Ier.append(float(mags[name].split(' ')[6]))
     Zer.append(float(mags[name].split(' ')[8]))
     Yer.append(float(mags[name].split(' ')[10]))
+
+#functions for calculating the average errors and 1st sigmas
+gg = abs(numpy.array(magG)-numpy.array(realMagG))
+rr = abs(numpy.array(magR)-numpy.array(realMagR))
+ii = abs(numpy.array(magI)-numpy.array(realMagI))
+zz = abs(numpy.array(magZ)-numpy.array(realMagZ))
+yy = abs(numpy.array(magY)-numpy.array(realMagY))
+cc = abs(numpy.array(realColor)-numpy.array(simColor))
+gg = numpy.sort(gg)
+rr = numpy.sort(rr)
+ii = numpy.sort(ii)
+zz = numpy.sort(zz)
+yy = numpy.sort(yy)
+cc = numpy.sort(cc)
 
 #real_mag = fit_mag line
 x = numpy.arange(-30,30,1)
@@ -202,53 +216,53 @@ alpha=0.01
 
 #g-band
 plt.subplot(321)
-plt.plot(x,fitFunction(x),color=color, label = 'fit mag = true mag',alpha=alpha,linewidth=elinewidth+2,zorder=1) 
+plt.plot(x,fitFunction(x),color=color, label = 'fit mag = true mag',alpha=alpha,linewidth=elinewidth+2,zorder=1)
 plt.errorbar(realMagG,magG,yerr=Ger,marker=marker,linestyle="None",markerfacecolor=mfc,label='simulated mock-sample',markersize=size,mec=mec,ecolor=ecolor,elinewidth=elinewidth,zorder=10)
 plt.xlim(x_lim,y_lim)
 plt.ylim(x_lim,y_lim)
-plt.xlabel('$m_{g,true}$',fontsize=fontsize)
-plt.ylabel('$m_{g,fit}$',fontsize=fontsize)
+plt.xlabel('$m_{g,\mathrm{true}}$',fontsize=fontsize)
+plt.ylabel('$m_{g,\mathrm{fit}}$',fontsize=fontsize)
 plt.legend(fontsize=22)
 
 #r_band
 plt.subplot(322)
-plt.plot(x,fitFunction(x),color=color,alpha=alpha,linewidth=elinewidth+2,zorder=1) 
+plt.plot(x,fitFunction(x),color=color,alpha=alpha,linewidth=elinewidth+2,zorder=1)
 plt.errorbar(realMagR,magR,yerr=Rer,marker=marker,linestyle="None",markerfacecolor=mfc,markersize=size,mec=mec,ecolor=ecolor,elinewidth=elinewidth,zorder=10)
 plt.xlim(x_lim,y_lim)
 plt.ylim(x_lim,y_lim)
-plt.xlabel('$m_{r,true}$',fontsize=fontsize)
-plt.ylabel('$m_{r,fit}$',fontsize=fontsize)
+plt.xlabel('$m_{r,\mathrm{true}}$',fontsize=fontsize)
+plt.ylabel('$m_{r,\mathrm{fit}}$',fontsize=fontsize)
 
 #i-band
 plt.subplot(323)
-plt.plot(x,fitFunction(x),color=color,alpha=alpha,linewidth=elinewidth+2,zorder=1) 
+plt.plot(x,fitFunction(x),color=color,alpha=alpha,linewidth=elinewidth+2,zorder=1)
 plt.errorbar(realMagI,magI,yerr=Ier,marker=marker,linestyle="None",markerfacecolor=mfc,markersize=size,mec=mec,ecolor=ecolor,elinewidth=elinewidth,zorder=10)
 plt.xlim(x_lim,y_lim)
 plt.ylim(x_lim,y_lim)
-plt.xlabel('$m_{i,true}$',fontsize=fontsize)
-plt.ylabel('$m_{i,fit}$',fontsize=fontsize)
+plt.xlabel('$m_{i,\mathrm{true}}$',fontsize=fontsize)
+plt.ylabel('$m_{i,\mathrm{fit}}$',fontsize=fontsize)
 
 #y-band
 plt.subplot(324)
-plt.plot(x,fitFunction(x),color=color,alpha=alpha,linewidth=elinewidth+2,zorder=1) 
+plt.plot(x,fitFunction(x),color=color,alpha=alpha,linewidth=elinewidth+2,zorder=1)
 plt.errorbar(realMagZ,magZ,yerr=Zer,marker=marker,linestyle="None",markerfacecolor=mfc,markersize=size,mec=mec,ecolor=ecolor,elinewidth=elinewidth,zorder=10)
 plt.xlim(x_lim,y_lim)
 plt.ylim(x_lim,y_lim)
-plt.xlabel('$m_{z,true}$',fontsize=fontsize)
-plt.ylabel('$m_{z,fit}$',fontsize=fontsize)
+plt.xlabel('$m_{z,\mathrm{true}}$',fontsize=fontsize)
+plt.ylabel('$m_{z,\mathrm{fit}}$',fontsize=fontsize)
 
 #z-band
 plt.subplot(325)
-plt.plot(x,fitFunction(x),color=color,alpha=alpha,linewidth=elinewidth+2,zorder=1) 
+plt.plot(x,fitFunction(x),color=color,alpha=alpha,linewidth=elinewidth+2,zorder=1)
 plt.errorbar(realMagY,magY,yerr=Yer,marker=marker,linestyle="None",markerfacecolor=mfc,markersize=size,mec=mec,ecolor=ecolor,elinewidth=elinewidth,zorder=10)
 plt.xlim(x_lim,y_lim)
 plt.ylim(x_lim,y_lim)
-plt.xlabel('$m_{y,true}$',fontsize=fontsize)
-plt.ylabel('$m_{y,fit}$',fontsize=fontsize)
+plt.xlabel('$m_{y,\mathrm{true}}$',fontsize=fontsize)
+plt.ylabel('$m_{y,\mathrm{fit}}$',fontsize=fontsize)
 
 #colours
 plt.subplot(326)
-plt.plot(x,fitFunction(x),color=color,alpha=alpha,linewidth=elinewidth+2,zorder=1) 
+plt.plot(x,fitFunction(x),color=color,alpha=alpha,linewidth=elinewidth+2,zorder=1)
 plt.errorbar(realColor,simColor,yerr=Ier,marker=marker,linestyle="None",markerfacecolor=mfc,markersize=size,mec=mec,ecolor=ecolor,elinewidth=elinewidth,zorder=10)
 plt.xlabel('true $g$-$i$ colour',fontsize=fontsize-8)
 plt.ylabel('fit $g$-$i$ colour',fontsize=fontsize-8)
@@ -353,7 +367,7 @@ plt.rcParams['xtick.major.pad'] = 8
 plt.figure(figsize=(10, 8))
 
 plt.plot(10.**x, 10.**y, c='darkgoldenrod', linestyle='--', linewidth = 3, label='best-fit line',zorder=1)
-plt.scatter(ratio,error,c='midnightblue',s=40,marker='x',label='simulated mock-images',zorder=10)
+plt.scatter(ratio,error,c='midnightblue',s=80,marker='o',label='simulated mock-sample',zorder=10,alpha=0.6)
 plt.xscale('log')
 plt.yscale('log')
 plt.ylim(3e-4,1)
@@ -361,11 +375,11 @@ plt.xlim(1e-3,10)
 plt.legend(fontsize='20')
 plt.xlabel('lens to source SB ratio ($\Lambda_{i}$)',fontsize=24)
 plt.ylabel('$g$-$i$ error ($\delta C$)',fontsize=24)
-plt.savefig('paper_plots/ratio.eps',format='eps', dpi=1000)
+plt.savefig('paper_plots/ratio.png',format='png', dpi=400)
 plt.close()
 
 ###############
-#lens at source 
+#lens at source
 os.makedirs('lensResAtSource')
 os.makedirs('lensResAtSource/sources')
 os.makedirs('lensResAtSource/res')
@@ -422,11 +436,11 @@ for name in mags.keys():
         #print(iRe)
 
         #using sky variance to get a threshold pixel value for defining the source borders
-        #and we want the source region from the g-band since in the other bands, it might never go above sky background 
+        #and we want the source region from the g-band since in the other bands, it might never go above sky background
         if f == 'g':
             var = fits.open('%s/data/data/sim0_%s_%s_var.fits' %(directory,name,f))[0].data.copy()
 
-            #calculating the mimimum of the variance file 
+            #calculating the mimimum of the variance file
             xRange,yRange = numpy.shape(var)
             minimum = 1000.0
             for x_pixel in range(xRange):
@@ -510,7 +524,7 @@ plt.rcParams['ytick.minor.visible'] = True
 plt.rcParams['xtick.major.pad'] = 8
 plt.figure(figsize=(10, 8))
 plt.plot(x, y, c='rosybrown', linestyle='--', linewidth = 5, label='best-fit line',zorder=2,alpha=0.8)
-plt.scatter(errorDependency,cError,c='slategrey',s=75,marker='o',label='simulated mock-images',zorder=10,alpha=0.7)
+plt.scatter(errorDependency,cError,c='slategrey',s=75,marker='o',label='simulated mock-sample',zorder=10,alpha=0.7)
 plt.xlabel('$\omega $',fontsize=24)
 plt.ylabel('$g$-$i$ error ($\delta C$)',fontsize=24)
 plt.xlim(-0.077,0.077)
