@@ -176,12 +176,41 @@ ii = abs(numpy.array(magI)-numpy.array(realMagI))
 zz = abs(numpy.array(magZ)-numpy.array(realMagZ))
 yy = abs(numpy.array(magY)-numpy.array(realMagY))
 cc = abs(numpy.array(realColor)-numpy.array(simColor))
+#functions for calculating the average errors and 1st sigmas
+#gg = (numpy.array(magG)-numpy.array(realMagG))
+#rr = (numpy.array(magR)-numpy.array(realMagR))
+#ii = (numpy.array(magI)-numpy.array(realMagI))
+#zz = (numpy.array(magZ)-numpy.array(realMagZ))
+#yy = (numpy.array(magY)-numpy.array(realMagY))
+#cc = (numpy.array(realColor)-numpy.array(simColor))
 gg = numpy.sort(gg)
 rr = numpy.sort(rr)
 ii = numpy.sort(ii)
 zz = numpy.sort(zz)
 yy = numpy.sort(yy)
 cc = numpy.sort(cc)
+
+#plotting the real vs fit mags and colours
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif', size = '24',weight='bold')
+plt.rcParams["font.family"]='serif'
+plt.rcParams["font.serif"][0] = 'times'
+plt.rcParams['xtick.direction'] = 'in'
+plt.rcParams['ytick.direction'] = 'in'
+plt.rcParams['ytick.right'] = plt.rcParams['ytick.labelright'] = False
+plt.rcParams['ytick.left'] = plt.rcParams['ytick.labelleft'] = True
+plt.rcParams['xtick.minor.visible'] = True
+plt.rcParams['ytick.minor.visible'] = True
+plt.figure(figsize=(7, 7))
+plt.rcParams["errorbar.capsize"] = 0.
+
+#plot
+plt.scatter(Ger,gg,color='darkslategray',marker='.',alpha=0.7)
+plt.xlabel('$g$-band MCMC error')
+plt.ylabel('$g$-band true error')
+plt.tight_layout()
+plt.savefig('ger.png',format='png',dpi=300)
+plt.close()
 
 #real_mag = fit_mag line
 x = numpy.arange(-30,30,1)
